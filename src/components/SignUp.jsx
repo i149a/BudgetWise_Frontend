@@ -1,118 +1,154 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import Client from '../services/api';
-import '../components/StylingFiles/auth.css';
 
-const SignUp = () => {
+const SignUp = ({ onSignUp }) => {
     const [formData, setFormData] = useState({
-        name: '',
+        username: '',
         email: '',
         password: '',
-        confirmPassword: ''
+        confirmPassword: '',
+        picture: ''
     });
-    const [error, setError] = useState('');
-    const [isLoading, setIsLoading] = useState(false);
+    const [errors, setErrors] = useState({});
     const navigate = useNavigate();
 
-    const handleChange = (e) => {
-        setFormData({
-        ...formData,
-        [e.target.name]: e.target.value
-        });
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{6,8}$/;
+
+    const validateForm = () => {
+        const newErrors = {};
+
+        if (!formData.username.trim()) {
+            newErrors.username = 'Username is required';
+        }
+
+        if (!formData.email.trim()) {
+            newErrors.email = 'Email is required';
+        } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+            newErrors.email = 'Email is invalid';
+        }
+
+        if (!formData.password) {
+            newErrors.password = 'Password is required';
+        } else if (!passwordRegex.test(formData.password)) {
+            newErrors.password = 'Password must be 6-8 characters with at least one uppercase, one lowercase, and one number';
+        }
+
+        if (formData.password !== formData.confirmPassword) {
+            newErrors.confirmPassword = 'Passwords do not match';
+        }
+
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
     };
 
-    const handleSubmit = async (e) => {
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData(prev => ({ ...prev, [name]: value }));
+    
+        if (errors[name]) {
+            setErrors(prev => ({ ...prev, [name]: '' }));
+        }
+    };
+
+    const handleSubmit = (e) => {
         e.preventDefault();
-        setIsLoading(true);
-        setError('');
-
-        try {
-            if (formData.password !== formData.confirmPassword) {
-                throw new Error('Passwords do not match');
-            }
-
-            // To remove the confirm password
-            const { confirmPassword, ...registrationData } = formData;
-
-            // Calling registration endpoint
-            const response = await Client.post('/auth/signup', registrationData);
-      
-            // Store the token
-            localStorage.setItem('token', response.data.token);
-      
-        navigate('/');
-        } catch (err) {
-            setError(err.response?.data?.message || err.message || 'Registration failed. Please try again.');
-        } finally {
-            setIsLoading(false);
+    
+        if (validateForm()) {
+            onSignUp(formData);
+            navigate('/');
         }
     };
 
     return (
         <div className="auth-container">
-            <div className="auth-card">
-                <h2>Create Your Account</h2>
-                {error && <div className="auth-error">{error}</div>}
-
-                <form onSubmit={handleSubmit}>
-                    <div className="form-group">
-                        <input
-                            type="text"
-                            name="name"
-                            value={formData.name}
-                            onChange={handleChange}
-                            placeholder="Full Name"
-                            required
-                        />
-                    </div>
-
-                    <div className="form-group">
-                        <input
-                            type="email"
-                            name="email"
-                            value={formData.email}
-                            onChange={handleChange}
-                            placeholder="Email"
-                            required
-                        />
-                    </div>
-
-                    <div className="form-group">
-                        <input
-                            type="password"
-                            name="password"
-                            value={formData.password}
-                            onChange={handleChange}
-                            placeholder="Password (min 6 characters)"
-                            required
-                            minLength="6"
-                        />
-                    </div>
-
-                    <div className="form-group">
-                        <input
-                            type="password"
-                            name="confirmPassword"
-                            value={formData.confirmPassword}
-                            onChange={handleChange}
-                            placeholder="Confirm Password"
-                            required
-                        />
-                    </div>
-
-                    <button 
-                        type="submit" 
-                        className="auth-button"
-                        disabled={isLoading}
-                        >
-                        {isLoading ? 'Creating Account...' : 'Sign Up'}
-                    </button>
-                </form>
-
-                <div className="auth-footer">
-                    Already have an account? <Link to="/signin">Sign In</Link>
+            <h1>Welcome to BudgetWise</h1>
+            <h2>Sign Up to Get Started</h2>
+            <form onSubmit={handleSubmit}>
+                <div className="form-group">
+                    <label>Username:</label>
+                    <input
+                        type="text"
+                        name="username"
+                        value={formData.username}
+                        onChange={handleChange}
+                        required
+                    />
+                    {errors.username && <span className="error">{errors.username}</span>}
                 </div>
-             </div>
+            
+                <div className="form-group">
+                    <label>Email:</label>
+                    <input
+                        type="email"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleChange}
+                        required
+                    />
+                    {errors.email && <span className="error">{errors.email}</span>}
+                </div>
+        
+                <div className="form-group">
+                    <label>Password:</label>
+                    <input
+                        type="password"
+                        name="password"
+                        value={formData.password}
+                        onChange={handleChange}
+                        required
+                    />
+                    {errors.password && <span className="error">{errors.password}</span>}
+                
+                    <div className="password-hints">
+                        <p>Password must:</p>
+                        <ul>
+                            <li className={formData.password.length >= 6 && formData.password.length <= 8 ? 'valid' : ''}>
+                                Be 6-8 characters long
+                            </li>
+              
+                            <li className={/[A-Z]/.test(formData.password) ? 'valid' : ''}>
+                                Contain at least one uppercase letter
+                            </li>
+
+                            <li className={/[a-z]/.test(formData.password) ? 'valid' : ''}>
+                                Contain at least one lowercase letter
+                            </li>
+
+                            <li className={/\d/.test(formData.password) ? 'valid' : ''}>
+                                Contain at least one number
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+        
+                <div className="form-group">
+                    <label>Confirm Password:</label>
+                    <input
+                        type="password"
+                        name="confirmPassword"
+                        value={formData.confirmPassword}
+                        onChange={handleChange}
+                        required
+                    />
+                    {errors.confirmPassword && <span className="error">{errors.confirmPassword}</span>}
+                </div>
+        
+                <div className="form-group">
+                    <label>Profile Picture URL:</label>
+                    <input
+                            type="text"
+                            name="picture"
+                            value={formData.picture}
+                            onChange={handleChange}
+                    />
+                </div>
+
+                <button type="submit" className="auth-btn">Sign Up</button>
+            </form>
+            
+            <p>
+                Already have an account? <Link to="/signin">Sign In</Link>
+            </p>
         </div>
     );
 };

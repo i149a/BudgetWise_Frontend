@@ -1,111 +1,115 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useState } from 'react'
+import { register } from '../services/auth'
+import { Link, useNavigate } from 'react-router-dom'
 
-const SignUp = ({ onSignUp }) => {
-    const [formData, setFormData] = useState({
-        username: '',
-        email: '',
-        password: '',
-        confirmPassword: '',
-        picture: ''
-    });
-    const [errors, setErrors] = useState({});
-    const navigate = useNavigate();
+const Register = () => {
+    // Initialize form state as an object with username, email, and password
+    const [formData, setFormData] = useState({ username: '', email: '', password: '', confirmPassword: '', picture: '' })
+    const [errors, setErrors] = useState({})
+    const navigate = useNavigate()
 
-    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{6,8}$/;
+    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/
 
     const validateForm = () => {
-        const newErrors = {};
+        const newErrors = {}
 
         if (!formData.username.trim()) {
-            newErrors.username = 'Username is required';
+            newErrors.username = 'Username is required'
         }
 
         if (!formData.email.trim()) {
-            newErrors.email = 'Email is required';
+            newErrors.email = 'Email is required'
         } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-            newErrors.email = 'Email is invalid';
+            newErrors.email = 'Email is invalid'
         }
 
         if (!formData.password) {
-            newErrors.password = 'Password is required';
+            newErrors.password = 'Password is required'
         } else if (!passwordRegex.test(formData.password)) {
-            newErrors.password = 'Password must be 6-8 characters with at least one uppercase, one lowercase, and one number';
+            newErrors.password = 'Password must be at least 8 characters with at least one uppercase, one lowercase, and one number'
         }
 
         if (formData.password !== formData.confirmPassword) {
-            newErrors.confirmPassword = 'Passwords do not match';
+            newErrors.confirmPassword = 'Passwords do not match'
         }
 
-        setErrors(newErrors);
-        return Object.keys(newErrors).length === 0;
-    };
+        setErrors(newErrors)
+        return Object.keys(newErrors).length === 0
+    }
 
+    // Handle input changes by updating the corresponding field in formValues
     const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData(prev => ({ ...prev, [name]: value }));
-    
-        if (errors[name]) {
-            setErrors(prev => ({ ...prev, [name]: '' }));
-        }
-    };
+        const { name, value } = e.target
+        setFormData(prev => ({ ...prev, [name]: value }))
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-    
-        if (validateForm()) {
-            onSignUp(formData);
-            navigate('/');
+        if (errors[name]) {
+            setErrors(prev => ({ ...prev, [name]: '' }))
         }
-    };
+    }
+
+    // Submit the form by passing the formValues object to the register service
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+        try {
+            if (validateForm()) {
+                await register(formData) // Pass the entire formValues object
+                navigate('/login')
+            }
+        } catch (err) {
+            const newErrors = {}
+            newErrors.error = `Registration failed: ${err}. Please try again.`
+            setError(newErrors)
+        }
+    }
 
     return (
-        <div className="auth-container">
-            <h1>Welcome to BudgetWise</h1>
-            <h2>Sign Up to Get Started</h2>
+        <>
             <form onSubmit={handleSubmit}>
                 <div className="form-group">
-                    <label>Username:</label>
+                    <label htmlFor='username'>Username:</label>
                     <input
+                        id='username'
                         type="text"
                         name="username"
                         value={formData.username}
                         onChange={handleChange}
+                        placeholder="Username"
                         required
                     />
                     {errors.username && <span className="error">{errors.username}</span>}
                 </div>
-            
                 <div className="form-group">
-                    <label>Email:</label>
+                    <label htmlFor='email'>Email:</label>
                     <input
+                        id='email'
                         type="email"
                         name="email"
                         value={formData.email}
                         onChange={handleChange}
+                        placeholder="Email"
                         required
                     />
                     {errors.email && <span className="error">{errors.email}</span>}
                 </div>
-        
                 <div className="form-group">
-                    <label>Password:</label>
+                    <label htmlFor='password'>Password:</label>
                     <input
+                        id='password'
                         type="password"
                         name="password"
                         value={formData.password}
                         onChange={handleChange}
+                        placeholder="Password"
                         required
                     />
                     {errors.password && <span className="error">{errors.password}</span>}
-                
                     <div className="password-hints">
                         <p>Password must:</p>
                         <ul>
                             <li className={formData.password.length >= 6 && formData.password.length <= 8 ? 'valid' : ''}>
-                                Be 6-8 characters long
+                                Be at least 8 characters long
                             </li>
-              
+
                             <li className={/[A-Z]/.test(formData.password) ? 'valid' : ''}>
                                 Contain at least one uppercase letter
                             </li>
@@ -120,10 +124,10 @@ const SignUp = ({ onSignUp }) => {
                         </ul>
                     </div>
                 </div>
-        
                 <div className="form-group">
-                    <label>Confirm Password:</label>
+                    <label htmlFor='confirmPassword'>Confirm Password:</label>
                     <input
+                        id='confirmPassword'
                         type="password"
                         name="confirmPassword"
                         value={formData.confirmPassword}
@@ -132,25 +136,23 @@ const SignUp = ({ onSignUp }) => {
                     />
                     {errors.confirmPassword && <span className="error">{errors.confirmPassword}</span>}
                 </div>
-        
                 <div className="form-group">
-                    <label>Profile Picture URL:</label>
+                    <label htmlFor='picture'>Profile Picture URL:</label>
                     <input
-                            type="text"
-                            name="picture"
-                            value={formData.picture}
-                            onChange={handleChange}
+                        id='picture'
+                        type="text"
+                        name="picture"
+                        value={formData.picture}
+                        onChange={handleChange}
                     />
                 </div>
-
-                <button type="submit" className="auth-btn">Sign Up</button>
+                <button type="submit" className="auth-btn">Register</button>
             </form>
-            
             <p>
-                Already have an account? <Link to="/signin">Sign In</Link>
+                Already have an account? <Link to="/login">Login</Link>
             </p>
-        </div>
-    );
-};
+        </>
+    )
+}
 
-export default SignUp;
+export default Register

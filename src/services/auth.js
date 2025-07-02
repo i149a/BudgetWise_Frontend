@@ -1,4 +1,4 @@
-import Client from './app.js'
+import Client from './api'
 
 // Register a new user
 export const register = async (userData) => {

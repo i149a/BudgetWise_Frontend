@@ -1,4 +1,4 @@
-import Client from './app.js'
+import Client from './api'
 
 // Fetch the user's profile data
 export const getProfile = async () => {

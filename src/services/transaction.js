@@ -1,9 +1,12 @@
-import Client from './app.js'
+import Client from './api'
 
 // Fetch all transactions for the authenticated user
-export const getTransactions = async () => {
+export const getTransactions = async (id = '') => {
   try {
     const response = await Client.get('/transactions')
+    if (id) {
+      return response.data.find((t) => t._id == id)
+    }
     return response.data
   } catch (error) {
     console.error('Error fetching transactions:', error)

@@ -1,29 +1,33 @@
-import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom'
+import { signout } from '../services/auth'
 
-const NavBar = ({ currentUser, onLogout }) => {
-    const navigate = useNavigate();
+const NavBar = () => {
+  const navigate = useNavigate()
+  const token = localStorage.getItem('token')
 
-    const handleLogout = () => {
-        onLogout();
-        navigate('/signin');
-    };
+  const handleLogout = () => {
+    signout() // Removes token from localStorage
+    navigate('/') // Redirects to home page
+  }
 
-    return (
-        <nav className="navbar">
-            <div className="navbar-brand">
-                <Link to="/">BudgetWise</Link>
-            </div>
-            {currentUser && (
-                <div className="navbar-links">
-                    <Link to="/transactions/new">Create Transaction</Link>
-                    <Link to="/categories/new">Create Category</Link>
-                    <Link to="/profile">Profile</Link>
-                    <button onClick={handleLogout} className="logout-btn">Logout</button>
-                </div>
-            )}
-        </nav>
-    );
-};
+  return (
+    <nav>
+      {token ? (
+        <>
+          <Link to="/dashboard">Dashboard</Link>&nbsp;
+          <Link to="/transactions">Transactions</Link>&nbsp;
+          <Link to="/categories">Categories</Link>&nbsp;
+          <Link to="/profile">Profile</Link>&nbsp;
+          <button onClick={handleLogout}>Logout</button>
+        </>
+      ) : (
+        <>
+          <Link to="/login">Login</Link>&nbsp;
+          <Link to="/register">Register</Link>
+        </>
+      )}
+    </nav>
+  )
+}
 
-export default NavBar;
+export default NavBar

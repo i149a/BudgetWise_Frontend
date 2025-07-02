@@ -11,6 +11,15 @@ import Categories from './components/Categories'
 import CategoryForm from './components/CategoryForm'
 import ProtectedRoute from './components/ProtectedRoute'
 
+//import css files//
+import './components/styling/App.css';
+import './components/styling/Form.css';
+import './components/styling/Navbar.css';
+import './components/styling/List.css';
+import './components/styling/Calendar.css';
+import './components/styling/Auth.css';
+
+
 const App = () => {
   return (
     <>

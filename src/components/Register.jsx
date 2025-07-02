@@ -106,7 +106,7 @@ const Register = () => {
                     <div className="password-hints">
                         <p>Password must:</p>
                         <ul>
-                            <li className={formData.password.length >= 6 && formData.password.length <= 8 ? 'valid' : ''}>
+                            <li className={formData.password.length >= 8 ? 'valid' : ''}>
                                 Be at least 8 characters long
                             </li>
 

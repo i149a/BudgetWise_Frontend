@@ -1,9 +1,12 @@
-import Client from './app.js'
+import Client from './api'
 
 // Fetch all categories for the authenticated user
-export const getCategories = async () => {
+export const getCategories = async (id = '') => {
   try {
     const response = await Client.get('/categories')
+    if (id) {
+      return response.data.find((t) => t._id == id)
+    }
     return response.data
   } catch (error) {
     console.error('Error fetching categories:', error);

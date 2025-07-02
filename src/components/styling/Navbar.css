@@ -1,1 +1,122 @@
-/* For navBar
+/* Navbar.css - Navigation Component Styles */
+
+/* Main Navigation */
+nav {
+    background: linear-gradient(135deg, var(--primary-green), var(--primary-green-dark));
+    padding: 1rem 2rem;
+    box-shadow: var(--shadow-md);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+  
+  /* Navigation Links */
+  nav a {
+    color: var(--text-white);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+    border-radius: var(--radius-md);
+    transition: var(--transition-fast);
+  }
+  
+  nav a:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    transform: translateY(-1px);
+  }
+  
+  nav a:active {
+    transform: translateY(0);
+  }
+  
+  /* Logout Button */
+  nav button {
+    background: rgba(255, 255, 255, 0.2);
+    color: var(--text-white);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    font-weight: 500;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: var(--transition-fast);
+    outline: none;
+  }
+  
+  nav button:hover {
+    background: rgba(255, 255, 255, 0.3);
+    border-color: rgba(255, 255, 255, 0.5);
+    transform: translateY(-1px);
+  }
+  
+  nav button:active {
+    transform: translateY(0);
+  }
+  
+  /* Brand/Logo Area (if you want to add one) */
+  .navbar-brand {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--text-white);
+    text-decoration: none;
+    margin-right: auto;
+  }
+  
+  .navbar-brand:hover {
+    opacity: 0.9;
+  }
+  
+  /* Navigation Groups */
+  .nav-group {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    nav {
+      padding: 1rem;
+      gap: 1rem;
+      justify-content: center;
+    }
+    
+    nav a,
+    nav button {
+      font-size: 0.875rem;
+      padding: 0.4rem 0.8rem;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    nav {
+      flex-direction: column;
+      gap: 0.5rem;
+      padding: 0.75rem;
+    }
+    
+    nav a,
+    nav button {
+      font-size: 0.8rem;
+      padding: 0.3rem 0.6rem;
+    }
+    
+    /* Stack navigation items vertically on very small screens */
+    .nav-group {
+      flex-direction: column;
+      gap: 0.5rem;
+      width: 100%;
+    }
+    
+    nav a,
+    nav button {
+      width: 100%;
+      text-align: center;
+    }
+  }

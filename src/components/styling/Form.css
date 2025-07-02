@@ -1,1 +1,464 @@
 /* Form of Transaction & Category
+/* Form.css - Form Component Styles */
+
+/* ===== AUTH CONTAINER (Login/Register) ===== */
+.auth-container {
+    max-width: 500px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  
+  .auth-container h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+  
+  .auth-container h2 {
+    font-size: 1.125rem;
+    color: var(--text-secondary);
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+  
+  /* Auth Forms (Login/Register) */
+  .auth-container form,
+  form {
+    background: var(--bg-primary);
+    border: 2px solid var(--gray-200);
+    border-radius: var(--radius-lg);
+    padding: 3rem;
+    box-shadow: var(--shadow-md);
+    margin-bottom: 2rem;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  /* Form Groups */
+  .form-group {
+    margin-bottom: 1.5rem;
+  }
+  
+  .form-group label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+  }
+  
+  /* Form Inputs */
+  input[type="email"],
+  input[type="password"],
+  input[type="text"],
+  input[type="number"],
+  input[type="date"],
+  input[type="url"],
+  select,
+  textarea {
+    width: 100%;
+    padding: 1rem;
+    font-size: 1rem;
+    border: 2px solid var(--gray-300);
+    border-radius: var(--radius-md);
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    transition: var(--transition-fast);
+    font-family: inherit;
+  }
+  
+  input[type="email"]:focus,
+  input[type="password"]:focus,
+  input[type="text"]:focus,
+  input[type="number"]:focus,
+  input[type="date"]:focus,
+  input[type="url"]:focus,
+  select:focus,
+  textarea:focus {
+    outline: none;
+    border-color: var(--primary-green);
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+  }
+  
+  select {
+    cursor: pointer;
+  }
+  
+  textarea {
+    min-height: 100px;
+    resize: vertical;
+  }
+  
+  /* Auth Button */
+  .auth-btn {
+    width: 100%;
+    padding: 1rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    background: linear-gradient(135deg, var(--primary-green), var(--primary-green-dark));
+    color: var(--text-white);
+    border: none;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: var(--transition-fast);
+    box-shadow: var(--shadow-sm);
+  }
+  
+  .auth-btn:hover {
+    background: linear-gradient(135deg, var(--primary-green-dark), var(--primary-green));
+    box-shadow: var(--shadow-md);
+    transform: translateY(-1px);
+  }
+  
+  .auth-btn:active {
+    transform: translateY(0);
+  }
+  
+  /* Submit Button (for forms) */
+  .submit-btn {
+    width: 100%;
+    padding: 1rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    background: linear-gradient(135deg, var(--primary-green), var(--primary-green-dark));
+    color: var(--text-white);
+    border: none;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: var(--transition-fast);
+    box-shadow: var(--shadow-sm);
+  }
+  
+  .submit-btn:hover {
+    background: linear-gradient(135deg, var(--primary-green-dark), var(--primary-green));
+    box-shadow: var(--shadow-md);
+    transform: translateY(-1px);
+  }
+  
+  .submit-btn:active {
+    transform: translateY(0);
+  }
+  
+  /* Error Messages */
+  .error {
+    display: block;
+    color: var(--danger-red);
+    font-size: 0.75rem;
+    margin-top: 0.25rem;
+    font-weight: 500;
+  }
+  
+  /* General error paragraphs */
+  p.error {
+    color: var(--danger-red);
+    font-size: 0.875rem;
+    text-align: center;
+    margin-top: 1rem;
+    padding: 0.75rem;
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid var(--danger-red);
+    border-radius: var(--radius-md);
+  }
+  
+  /* Password Hints (Register) */
+  .password-hints {
+    margin-top: 1rem;
+    padding: 1rem;
+    background: var(--bg-secondary);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--gray-200);
+  }
+  
+  .password-hints p {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+    text-align: left;
+  }
+  
+  .password-hints ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .password-hints li {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.25rem;
+    padding-left: 1.5rem;
+    position: relative;
+    text-align: left;
+  }
+  
+  .password-hints li::before {
+    content: '✗';
+    position: absolute;
+    left: 0;
+    color: var(--danger-red);
+    font-weight: bold;
+  }
+  
+  .password-hints li.valid {
+    color: var(--success-green);
+  }
+  
+  .password-hints li.valid::before {
+    content: '✓';
+    color: var(--success-green);
+  }
+  
+  /* Auth Links */
+  .auth-container p,
+  form + p {
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    margin-top: 1rem;
+  }
+  
+  .auth-container p a,
+  form + p a {
+    color: var(--primary-green);
+    text-decoration: none;
+    font-weight: 600;
+  }
+  
+  .auth-container p a:hover,
+  form + p a:hover {
+    text-decoration: underline;
+  }
+  
+  /* ===== FORM CONTAINER (TransactionForm/CategoryForm) ===== */
+  .form-container {
+    background: var(--bg-primary);
+    border: 2px solid var(--gray-200);
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    box-shadow: var(--shadow-md);
+    max-width: 600px;
+    margin: 2rem auto;
+  }
+  
+  .form-container h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+  
+  /* Form Rows */
+  .form-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  /* Radio Groups */
+  .radio-group {
+    display: flex;
+    gap: 2rem;
+    margin-top: 0.5rem;
+  }
+  
+  .radio-option {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+  }
+  
+  .radio-option input[type="radio"] {
+    width: 1.25rem;
+    height: 1.25rem;
+    accent-color: var(--primary-green);
+  }
+  
+  /* ===== PROFILE FORM ELEMENTS ===== */
+  .profile-container {
+    max-width: 600px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+  }
+  
+  .profile-container h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+  
+  .profile-info {
+    background: var(--bg-primary);
+    border: 2px solid var(--gray-200);
+    border-radius: var(--radius-lg);
+    padding: 3rem 2rem;
+    box-shadow: var(--shadow-md);
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+  
+  .profile-pic {
+    width: 120px;
+    height: 120px;
+    border-radius: var(--radius-full);
+    border: 4px solid var(--primary-green);
+    margin: 0 auto 1.5rem;
+    display: block;
+    object-fit: cover;
+    box-shadow: var(--shadow-md);
+  }
+  
+  .profile-info h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+  }
+  
+  .profile-info p {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    margin-bottom: 2rem;
+  }
+  
+  .change-pic-btn,
+  .change-pwd-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.75rem 1.5rem;
+    margin: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-decoration: none;
+    border: none;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: var(--transition-fast);
+    outline: none;
+  }
+  
+  .change-pic-btn {
+    background: var(--bg-primary);
+    color: var(--primary-green);
+    border: 2px solid var(--primary-green);
+  }
+  
+  .change-pic-btn:hover {
+    background: var(--primary-green);
+    color: var(--text-white);
+  }
+  
+  .change-pwd-btn {
+    background: linear-gradient(135deg, var(--secondary-blue), var(--secondary-blue-dark));
+    color: var(--text-white);
+    box-shadow: var(--shadow-sm);
+  }
+  
+  .change-pwd-btn:hover {
+    background: linear-gradient(135deg, var(--secondary-blue-dark), var(--secondary-blue));
+    box-shadow: var(--shadow-md);
+    transform: translateY(-1px);
+  }
+  
+  .profile-links {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+  
+  .profile-link {
+    background: var(--bg-primary);
+    border: 2px solid var(--gray-200);
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    text-decoration: none;
+    color: var(--text-primary);
+    font-weight: 600;
+    font-size: 1.125rem;
+    text-align: center;
+    transition: var(--transition-normal);
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    min-height: 120px;
+  }
+  
+  .profile-link:hover {
+    border-color: var(--primary-green);
+    background: var(--bg-secondary);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+    color: var(--primary-green);
+  }
+  
+  .profile-link-icon {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  /* ===== RESPONSIVE DESIGN ===== */
+  @media (max-width: 768px) {
+    .auth-container {
+      padding: 1.5rem 1rem;
+    }
+    
+    .auth-container h1 {
+      font-size: 2rem;
+    }
+    
+    .auth-container form,
+    form {
+      padding: 1.5rem;
+    }
+    
+    .form-container {
+      padding: 1.5rem;
+      margin: 1rem;
+    }
+    
+    .form-row {
+      grid-template-columns: 1fr;
+    }
+    
+    .radio-group {
+      flex-direction: column;
+      gap: 1rem;
+    }
+    
+    .profile-links {
+      grid-template-columns: 1fr;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .profile-info {
+      padding: 2rem 1rem;
+    }
+    
+    .profile-pic {
+      width: 100px;
+      height: 100px;
+    }
+    
+    .profile-actions {
+      flex-direction: column;
+      align-items: center;
+    }
+  }

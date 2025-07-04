@@ -9,7 +9,7 @@ BudgetWise is a Personal Budget Tracker that helps users manage their income and
 - Mohamed Alhamry
 
 **🔗 Browse it live:**  
-Go Live: [Deployed Personal Budget Tracker Frontend]()
+Go Live: [Deployed Personal Budget Tracker Frontend](https://lamentable-creator.surge.sh/)
 
 **✅ Trello Board**  
 Track our development progress and task assignments via our Trello board:  
@@ -46,15 +46,15 @@ Track our development progress and task assignments via our Trello board:
 
 ## 🧪 Screenshots from Browser  
 ### Home Page 
-![Home Page]()
+![Home Page](images/ScreenShots/HomePage.png)
 📌 *Home page of Personal Budget Tracker welcoming users and providing navigation options.*
 
 ### Sign In Page
-![Sign In Page]()  
+![Sign In Page](images/ScreenShots/Login.png)  
 📌 *Sign in page where existing users can log into their accounts.*
 
 ### Profile Page
-![Profile Page]()  
+![Profile Page](images/ScreenShots/Profile.png)  
 📌 *Manage your transactions, categories, password, and profile picture.*
 
 ---

@@ -44,7 +44,7 @@ const Categories = () => {
         }
     }
 
-    if (loading) return <div>Loading...</div>
+    if (loading) return <div className='loading-screen'>Loading...</div>
 
     if (error) return <div>{error}</div>
 

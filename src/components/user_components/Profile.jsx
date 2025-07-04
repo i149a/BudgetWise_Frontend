@@ -52,7 +52,7 @@ const Profile = () => {
   }
 
   if (loading) {
-    return <div>Loading...</div>
+    return <div className='loading-screen'>Loading...</div>
   }
 
   if (error) {

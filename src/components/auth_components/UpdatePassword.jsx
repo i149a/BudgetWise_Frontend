@@ -6,6 +6,7 @@ const UpdatePassword = () => {
     // Initialize form state as an object with username, email, and password
     const [formData, setFormData] = useState({ oldPassword: '', newPassword: '', confirmNewPassword: '' })
     const [errors, setErrors] = useState({})
+    const [loading, setLoading] = useState(false)
     const navigate = useNavigate()
 
     const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/
@@ -46,7 +47,9 @@ const UpdatePassword = () => {
         e.preventDefault()
         try {
             if (validateForm()) {
+                setLoading(true)
                 await updatePassword(formData)
+                setLoading(false)
                 window.alert('Your password updated successfully.')
                 navigate('/profile')
             }
@@ -58,7 +61,12 @@ const UpdatePassword = () => {
                 newErrors.error = `Updating password failed: ${err}. Please try again.`
             }
             setErrors(newErrors)
+            setLoading(false)
         }
+    }
+
+    if (loading) {
+        return <div className='loading-screen'>Loading...</div>
     }
 
     return (

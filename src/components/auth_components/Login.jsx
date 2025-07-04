@@ -6,6 +6,7 @@ const Login = () => {
     // Initialize form state as an object with email and password
     const [formData, setFormData] = useState({ email: '', password: '' })
     const [error, setError] = useState(null)
+    const [loading, setLoading] = useState(false)
     const navigate = useNavigate()
 
     // Handle input changes by updating the corresponding field in formValues
@@ -18,7 +19,9 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault()
         try {
+            setLoading(true)
             await login(formData) // Pass the entire formValues object
+            setLoading(false)
             navigate('/dashboard')
         } catch (err) {
             let error = ""
@@ -28,9 +31,12 @@ const Login = () => {
                 error = `Login failed: ${err}. Please check your credentials and try again.`
             }
             setError('Login failed. Please check your credentials.')
+            setLoading(false)
         }
     }
-
+    if (loading) {
+        return <div className='loading-screen'>Loading...</div>
+    }
     return (
         <form onSubmit={handleSubmit}>
             <div className="form-group">

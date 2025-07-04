@@ -6,6 +6,7 @@ const Register = () => {
     // Initialize form state as an object with username, email, and password
     const [formData, setFormData] = useState({ username: '', email: '', password: '', confirmPassword: '', picture: '' })
     const [errors, setErrors] = useState({})
+    const [loading, setLoading] = useState(false)
     const navigate = useNavigate()
 
     const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/
@@ -52,7 +53,9 @@ const Register = () => {
         e.preventDefault()
         try {
             if (validateForm()) {
+                setLoading(true)
                 await register(formData) // Pass the entire formValues object
+                setLoading(false)
                 navigate('/login')
             }
         } catch (err) {
@@ -63,9 +66,12 @@ const Register = () => {
                 newErrors.error = `Registration failed: ${err}. Please try again.`
             }
             setErrors(newErrors)
+            setLoading(false)
         }
     }
-
+    if (loading) {
+        return <div className='loading-screen'>Loading...</div>
+    }
     return (
         <>
             <form onSubmit={handleSubmit}>

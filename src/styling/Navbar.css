@@ -1,122 +1,203 @@
 /* Navbar.css - Navigation Component Styles */
 
 /* Main Navigation */
-nav {
-    background: linear-gradient(135deg, var(--primary-green), var(--primary-green-dark));
-    padding: 1rem 2rem;
-    box-shadow: var(--shadow-md);
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 2rem;
-    flex-wrap: wrap;
+.navbar {
+  background: linear-gradient(135deg, var(--primary-green), var(--primary-green-dark));
+  padding: 1rem 2rem;
+  box-shadow: var(--shadow-md);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* Aligns visible-links and drawer-toggle */
+  margin: 0 auto; /* Center navbar on large screens */
+  width: 100%;
+}
+
+/* Navigation Groups */
+.nav-group {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem; /* Increased gap for better spacing */
+  flex-wrap: wrap; /* Allow wrapping if needed */
+}
+
+/* Visible Links (Dashboard, Profile, and inline links on large screens) */
+.visible-links {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  flex-grow: 1;
+  justify-content: space-evenly; /* Distribute links evenly on large advancing */
+}
+
+/* Inline Links (Transactions, Categories, Logout) */
+.inline-links {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  justify-content: space-evenly;
+}
+
+/* Navigation Links */
+.navbar a {
+  color: var(--text-white);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-md);
+  transition: var(--transition-fast);
+}
+
+.navbar a:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  transform: translateY(-1px);
+}
+
+.navbar a:active {
+  transform: translateY(0);
+}
+
+/* Logout Button */
+.navbar button {
+  background: rgba(255, 255, 255, 0.2);
+  color: var(--text-white);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  font-weight: 500;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: var(--transition-fast);
+  outline: none;
+}
+
+.navbar button:hover {
+  background: rgba(255, 255, 255, 0.3);
+  border-color: rgba(255, 255, 255, 0.5);
+  transform: translateY(-1px);
+}
+
+.navbar button:active {
+  transform: translateY(0);
+}
+
+/* Drawer Toggle Button (Hamburger Icon) */
+.drawer-toggle {
+  background: transparent;
+  border: none;
+  color: var(--text-white, #ffffff); /* Fallback to white */
+  cursor: pointer;
+  display: none; /* Hidden by default, shown on mobile */
+  padding: 0.5rem;
+  line-height: 0; /* Prevent extra spacing */
+}
+
+/* SVG Icon Styling */
+.drawer-icon {
+  width: 24px;
+  height: 24px;
+  stroke: var(--text-white, #ffffff); /* Ensure visibility with fallback */
+}
+
+/* Drawer Toggle Hover */
+.drawer-toggle:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-md);
+}
+
+/* Drawer Content */
+.drawer-content {
+  display: none; /* Hidden by default */
+}
+
+/* Brand/Logo Area (if you want to add one) */
+.navbar-brand {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--text-white);
+  text-decoration: none;
+  margin-right: auto;
+}
+
+.navbar-brand:hover {
+  opacity: 0.9;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .navbar {
+    padding: 1rem;
+    justify-content: space-between;
   }
-  
-  /* Navigation Links */
-  nav a {
-    color: var(--text-white);
-    text-decoration: none;
-    font-weight: 500;
-    font-size: 1rem;
-    padding: 0.5rem 1rem;
-    border-radius: var(--radius-md);
-    transition: var(--transition-fast);
-  }
-  
-  nav a:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-    transform: translateY(-1px);
-  }
-  
-  nav a:active {
-    transform: translateY(0);
-  }
-  
-  /* Logout Button */
-  nav button {
-    background: rgba(255, 255, 255, 0.2);
-    color: var(--text-white);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    padding: 0.5rem 1rem;
-    font-size: 1rem;
-    font-weight: 500;
-    border-radius: var(--radius-md);
-    cursor: pointer;
-    transition: var(--transition-fast);
-    outline: none;
-  }
-  
-  nav button:hover {
-    background: rgba(255, 255, 255, 0.3);
-    border-color: rgba(255, 255, 255, 0.5);
-    transform: translateY(-1px);
-  }
-  
-  nav button:active {
-    transform: translateY(0);
-  }
-  
-  /* Brand/Logo Area (if you want to add one) */
-  .navbar-brand {
-    font-size: 1.5rem;
-    font-weight: 800;
-    color: var(--text-white);
-    text-decoration: none;
-    margin-right: auto;
-  }
-  
-  .navbar-brand:hover {
-    opacity: 0.9;
-  }
-  
-  /* Navigation Groups */
-  .nav-group {
-    display: flex;
-    align-items: center;
+
+  .visible-links {
+    justify-content: flex-start; /* Align Dashboard and Profile to the left */
     gap: 1rem;
   }
-  
-  /* Responsive Design */
-  @media (max-width: 768px) {
-    nav {
-      padding: 1rem;
-      gap: 1rem;
-      justify-content: center;
-    }
-    
-    nav a,
-    nav button {
-      font-size: 0.875rem;
-      padding: 0.4rem 0.8rem;
-    }
+
+  .visible-links a {
+    font-size: 0.875rem;
+    padding: 0.4rem 0.8rem;
   }
-  
-  @media (max-width: 480px) {
-    nav {
-      flex-direction: column;
-      gap: 0.5rem;
-      padding: 0.75rem;
-    }
-    
-    nav a,
-    nav button {
-      font-size: 0.8rem;
-      padding: 0.3rem 0.6rem;
-    }
-    
-    /* Stack navigation items vertically on very small screens */
-    .nav-group {
-      flex-direction: column;
-      gap: 0.5rem;
-      width: 100%;
-    }
-    
-    nav a,
-    nav button {
-      width: 100%;
-      text-align: center;
-    }
+
+  /* Hide inline links on mobile */
+  .inline-links {
+    display: none;
   }
+
+  /* Show drawer toggle button on mobile */
+  .drawer-toggle {
+    display: block;
+  }
+
+  /* Drawer content styling for mobile */
+  .drawer-content.open {
+    display: flex;
+    flex-direction: column;
+    background: var(--primary-green-dark);
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    padding: 1rem;
+    box-shadow: var(--shadow-md);
+    z-index: 99;
+    transition: transform 0.3s ease-in-out;
+  }
+
+  .drawer-content .nav-group {
+    flex-direction: column;
+    gap: 0.75rem; /* Tighter spacing for drawer */
+    width: 100%;
+  }
+
+  .drawer-content a,
+  .drawer-content button {
+    width: 100%;
+    text-align: center;
+    font-size: 0.875rem;
+    padding: 0.5rem; /* Consistent padding */
+    border-radius: var(--radius-md);
+  }
+}
+
+@media (max-width: 480px) {
+  .navbar {
+    padding: 0.75rem;
+  }
+
+  .visible-links a {
+    font-size: 0.8rem;
+    padding: 0.3rem 0.6rem;
+  }
+
+  .drawer-content a,
+  .drawer-content button {
+    font-size: 0.8rem;
+    padding: 0.4rem;
+  }
+}

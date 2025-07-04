@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { getProfile, updateProfilePicture } from '../services/profile'
+import { getProfile, updateProfilePicture } from '../../services/profile'
 
 const Profile = () => {
   const [profile, setProfile] = useState(null)
@@ -17,7 +17,13 @@ const Profile = () => {
         setProfile(data)
         setLoading(false)
       } catch (err) {
-        setError('Failed to fetch profile')
+        let error = ""
+        if (err.response && err.response.data && err.response.data.msg) {
+          error = `Failed to fetch profile: ${err.response.data.msg}. Please try again.`
+        } else {
+          error = `Failed to fetch profile: ${err}. Please try again.`
+        }
+        setError(error)
         setLoading(false)
       }
     }
@@ -25,14 +31,23 @@ const Profile = () => {
   }, [])
 
   const handleUpdatePicture = async () => {
+    setLoading(true)
     try {
       const updatedProfile = await updateProfilePicture(newPicture)
       setProfile(updatedProfile)
       setNewPicture('')
       setIsEditingPicture(false)
       setUpdateError(null)
+      setLoading(false)
     } catch (err) {
-      setUpdateError('Failed to update profile picture')
+      let error = ""
+      if (err.response && err.response.data && err.response.data.msg) {
+        error = `Failed to update profile picture: ${err.response.data.msg}. Please try again.`
+      } else {
+        error = `Failed to update profile picture: ${err}. Please try again.`
+      }
+      setError(error)
+      setLoading(false)
     }
   }
 
@@ -61,23 +76,31 @@ const Profile = () => {
               onChange={(e) => setNewPicture(e.target.value)}
               placeholder="New Picture URL"
             />
-            <button onClick={handleUpdatePicture}>Save</button>
-            <button onClick={() => setIsEditingPicture(false)}>Cancel</button>
+            <button className='submit-btn' onClick={handleUpdatePicture}>Save</button>
+            <button className='cancel-btn' onClick={() => setIsEditingPicture(false)}>Cancel</button>
             {updateError && <p>{updateError}</p>}
           </div>
         ) : (
-          <button onClick={() => {
+          <div>
+          <button className='add-btn' onClick={() => {
             setIsEditingPicture(true)
             setUpdateError(null)
-          }}>Change Picture</button>
+          }}>Change Picture</button> </div>
         )}
+      </div>
+
+      <div className="profile-info">
         <p>Username: {profile.username}</p>
         <p>Email: {profile.email}</p>
       </div>
 
       <div className="profile-links">
-        <Link to="/transactions" className="profile-link">My Transactions</Link>&nbsp;
+        <Link to="/transactions" className="profile-link">My Transactions</Link>
         <Link to="/categories" className="profile-link">My Categories</Link>
+        <Link to="/profile/update-password" className="profile-link">
+          <span className="profile-link-icon">🔑</span>
+          Update Password
+        </Link>
       </div>
 
     </div>

@@ -12,11 +12,11 @@ const Home = () => {
   }, [navigate]);
 
   return (
-    <div>
+    <div className='container'>
       <h1>Welcome to BudgetWise</h1>
       <p>Track your income and expenses easily.</p>
-      <button onClick={() => navigate('/login')}>Login</button>
-      <button onClick={() => navigate('/register')}>Register</button>
+      <button className='submit-btn' onClick={() => navigate('/login')}>Login</button>
+      <button className='cancel-btn' onClick={() => navigate('/register')}>Register</button>
     </div>
   )
 }

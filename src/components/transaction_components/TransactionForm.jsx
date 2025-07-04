@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
-import { getTransactions, addTransaction, updateTransaction } from '../services/transaction'
-import { getCategories } from '../services/category'
+import { getTransactions, addTransaction, updateTransaction } from '../../services/transaction'
+import { getCategories } from '../../services/category'
 
 const TransactionForm = () => {
   const { id } = useParams() // Get transaction ID from URL if editing
@@ -38,7 +38,13 @@ const TransactionForm = () => {
         }
         setLoading(false)
       } catch (err) {
-        setError(`Failed to load data: ${err}`)
+        let error = ""
+        if (err.response && err.response.data && err.response.data.msg) {
+          error = `Failed to load transactions: ${err.response.data.msg}. Please try again.`
+        } else {
+          error = `Failed to load transactions: ${err}. Please try again.`
+        }
+        setError(error)
         setLoading(false)
       }
     }
@@ -51,7 +57,7 @@ const TransactionForm = () => {
   }
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault()
     try {
       if (id) {
         // Update existing transaction
@@ -68,7 +74,13 @@ const TransactionForm = () => {
       }
       navigate('/transactions') // Redirect to transaction list
     } catch (err) {
-      setError('Failed to save transaction')
+      let error = ""
+      if (err.response && err.response.data && err.response.data.msg) {
+        error = `Failed to save transaction: ${err.response.data.msg}. Please try again.`
+      } else {
+        error = `Failed to save transaction: ${err}. Please try again.`
+      }
+      setError(error)
     }
   }
 
@@ -76,7 +88,7 @@ const TransactionForm = () => {
   if (error) return <div>{error}</div>
 
   return (
-    <div>
+    <div className='form-container'>
       <h2>{id ? 'Edit Transaction' : 'New Transaction'}</h2>
       <form onSubmit={handleSubmit}>
         <div>
@@ -141,8 +153,8 @@ const TransactionForm = () => {
             ))}
           </select>
         </div>
-        <button type="submit">{id ? 'Update' : 'Add'} Transaction</button>
-        <button type="button" onClick={() => navigate('/transactions')}>
+        <button type="submit" className='submit-btn'>{id ? 'Update' : 'Add'} Transaction</button>
+        <button type="button" className='cancel-btn' onClick={() => navigate('/transactions')}>
           Cancel
         </button>
       </form>

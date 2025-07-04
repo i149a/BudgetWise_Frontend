@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { login } from '../services/auth'
+import { login } from '../../services/auth'
 import { Link, useNavigate } from 'react-router-dom'
 
 const Login = () => {
@@ -21,6 +21,12 @@ const Login = () => {
             await login(formData) // Pass the entire formValues object
             navigate('/dashboard')
         } catch (err) {
+            let error = ""
+            if (err.response && err.response.data && err.response.data.msg) {
+                error = `Login failed: ${err.response.data.msg}. Please check your credentials and try again.`
+            } else {
+                error = `Login failed: ${err}. Please check your credentials and try again.`
+            }
             setError('Login failed. Please check your credentials.')
         }
     }

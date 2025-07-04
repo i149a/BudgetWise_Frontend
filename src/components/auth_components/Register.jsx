@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { register } from '../services/auth'
+import { register } from '../../services/auth'
 import { Link, useNavigate } from 'react-router-dom'
 
 const Register = () => {
@@ -57,8 +57,12 @@ const Register = () => {
             }
         } catch (err) {
             const newErrors = {}
-            newErrors.error = `Registration failed: ${err}. Please try again.`
-            setError(newErrors)
+            if (err.response && err.response.data && err.response.data.msg) {
+                newErrors.error = `Registration failed: ${err.response.data.msg}. Please try again.`
+            } else {
+                newErrors.error = `Registration failed: ${err}. Please try again.`
+            }
+            setErrors(newErrors)
         }
     }
 
@@ -148,6 +152,7 @@ const Register = () => {
                 </div>
                 <button type="submit" className="auth-btn">Register</button>
             </form>
+            {errors.error && <span className="error">{errors.error}</span>}
             <p>
                 Already have an account? <Link to="/login">Login</Link>
             </p>

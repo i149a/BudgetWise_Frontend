@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { getTransactions, deleteTransaction } from '../services/transaction'
+import { getTransactions, deleteTransaction } from '../../services/transaction'
 
 const Transactions = () => {
   const [transactions, setTransactions] = useState([])
@@ -14,7 +14,13 @@ const Transactions = () => {
         setTransactions(transactionsData)
         setLoading(false)
       } catch (err) {
-        setError(`Failed to fetch transactions: ${err}`)
+        let error = ""
+        if (err.response && err.response.data && err.response.data.msg) {
+          error = `Failed to fetch transactions: ${err.response.data.msg}. Please try again.`
+        } else {
+          error = `Failed to fetch transactions: ${err}. Please try again.`
+        }
+        setError(error)
         setLoading(false)
       }
     }
@@ -27,7 +33,13 @@ const Transactions = () => {
         await deleteTransaction(id)
         setTransactions(transactions.filter((t) => t._id !== id))
       } catch (err) {
-        setError('Failed to delete transaction')
+        let error = ""
+        if (err.response && err.response.data && err.response.data.msg) {
+          error = `Failed to delete transaction: ${err.response.data.msg}. Please try again.`
+        } else {
+          error = `Failed to delete transaction: ${err}. Please try again.`
+        }
+        setError(error)
       }
     }
   }
@@ -39,9 +51,9 @@ const Transactions = () => {
     <div className="list-container">
       <h1>My Transactions</h1>
       <Link to="/transactions/new">
-        <button>Add New Transaction</button>
+        <button className='add-btn'>Add New Transaction</button>
       </Link>
-      <table>
+      <table className='table-container'>
         <thead>
           <tr>
             <th>Date</th>
@@ -64,9 +76,9 @@ const Transactions = () => {
               <td>{transaction.description}</td>
               <td>
                 <Link to={`/transactions/${transaction._id}`}>
-                  <button>Edit</button>
+                  <button className='add-btn'>Edit</button>
                 </Link>
-                <button onClick={() => handleDelete(transaction._id)}>Delete</button>
+                <button className='delete-btn' onClick={() => handleDelete(transaction._id)}>Delete</button>
               </td>
             </tr>
           ))}

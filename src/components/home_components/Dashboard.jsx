@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom';
-import { getTransactions } from '../services/transaction'
-import Calendar from './Calendar';
+import { getTransactions } from '../../services/transaction';
+import Calendar from '../helper_components/Calendar';
 
 const Dashboard = () => {
     const [transactions, setTransactions] = useState([])
@@ -15,7 +15,13 @@ const Dashboard = () => {
                 setTransactions(data)
                 setLoading(false)
             } catch (err) {
-                setError('Failed to fetch transactions')
+                let error = ""
+                if (err.response && err.response.data && err.response.data.msg) {
+                    error = `Failed to fetch transactions: ${err.response.data.msg}. Please try again.`
+                } else {
+                    error = `Failed to fetch transactions: ${err}. Please try again.`
+                }
+                setError(error)
                 setLoading(false)
             }
         }

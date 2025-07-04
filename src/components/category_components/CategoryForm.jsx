@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
-import { getCategories, addCategory, updateCategory } from '../services/category'
+import { getCategories, addCategory, updateCategory } from '../../services/category'
 
 const CategoryForm = () => {
   const { id } = useParams() // Get category ID from URL if editing
@@ -26,7 +26,13 @@ const CategoryForm = () => {
         }
         setLoading(false)
       } catch (err) {
-        setError('Failed to load category')
+        let error = ""
+        if (err.response && err.response.data && err.response.data.msg) {
+          error = `Failed to load category: ${err.response.data.msg}. Please try again.`
+        } else {
+          error = `Failed to load category: ${err}. Please try again.`
+        }
+        setError(error)
         setLoading(false)
       }
     }
@@ -39,7 +45,7 @@ const CategoryForm = () => {
   }
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault()
     try {
       if (id) {
         await updateCategory(id, formData)
@@ -48,7 +54,13 @@ const CategoryForm = () => {
       }
       navigate('/categories')
     } catch (err) {
-      setError('Failed to save category')
+      let error = ""
+      if (err.response && err.response.data && err.response.data.msg) {
+        error = `Failed to save category: ${err.response.data.msg}. Please try again.`
+      } else {
+        error = `Failed to save category: ${err}. Please try again.`
+      }
+      setError(error)
     }
   }
 
@@ -56,14 +68,15 @@ const CategoryForm = () => {
   if (error) return <div>{error}</div>
 
   return (
-    <div>
+    <div className='form-container'>
       <h2>{id ? 'Edit Category' : 'New Category'}</h2>
       <form onSubmit={handleSubmit}>
         <div>
           <label>Name:</label>
           <input
+            id='catname'
             type="text"
-            name="name"
+            name="catname"
             value={formData.name}
             onChange={handleChange}
             required
@@ -86,8 +99,8 @@ const CategoryForm = () => {
             onChange={handleChange}
           />
         </div>
-        <button type="submit">{id ? 'Update' : 'Add'} Category</button>
-        <button type="button" onClick={() => navigate('/categories')}>
+        <button type="submit" className='submit-btn'>{id ? 'Update' : 'Add'} Category</button>
+        <button type="button" className='cancel-btn' onClick={() => navigate('/categories')}>
           Cancel
         </button>
       </form>
